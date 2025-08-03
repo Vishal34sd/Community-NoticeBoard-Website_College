@@ -1,5 +1,8 @@
 import User from "../model/userSchema.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken"
+import dotenv from "dotenv"
+dotenv.config();
 
 
 const registerUser = async(req , res)=>{
@@ -42,5 +45,51 @@ const registerUser = async(req , res)=>{
     }
 }
 
+const loginUser = async(req, res )=>{
+    try{
+        const {email , password } = req.body ;
+        if(!email || !password ){
+            return res.status(400).json({
+                success : false , 
+                message : "email or password required "
+            });
+        }
+        const emailExist = await User.findOne({email});
+        if(!emailExist){
+            return res.status(404).json({
+                success : false ,
+                message : "Email doesnt exist"
+            });
+        }
+        const verifyPassword = await bcrypt.compare(password , emailExist.password);
+        if(!verifyPassword){
+            return res.status(402).json({
+                success : false ,
+                message : "Password is incorrect"
+            });
+        }
+        const accessToken = await jwt.sign({
+            userId : emailExist._id,
+            username : emailExist.username,
+            email : emailExist.email
+        }, process.env.JWT_SECRET_KEY , {expiresIn : "30m"});
+        if(!accessToken){
+            return res.status(400).json({
+                success : false ,
+                message : "Access token cannot  be created "
+            });
+        }
+        return res.status(200).json({
+            success : true ,
+            message : "User registered successfully",
+            token : accessToken
+        })
 
-export {registerUser}
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+
+export {registerUser , loginUser}
