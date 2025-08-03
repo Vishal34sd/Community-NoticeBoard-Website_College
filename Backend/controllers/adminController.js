@@ -55,4 +55,25 @@ const  editNotice = async(req, res)=>{
     }
 }
 
-export {addNotice , editNotice}
+const deleteNotice = async(req, res)=>{
+    try{
+        const noticeId = req.params.id;
+
+        const deleteNoticeData = await Notice.findByIdAndDelete(noticeId);
+        if(deleteNoticeData){
+            return res.status(400).json({
+                success : false ,
+                message : "Notice cannot be deleted"
+            });
+        }
+        return res.status(200).json({
+            success : true ,
+            message : "notice deleted successfully"
+        })
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+export {addNotice , editNotice , deleteNotice}
