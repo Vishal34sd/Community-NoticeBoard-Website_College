@@ -4,6 +4,7 @@ import dbConnection from "./database/db.js";
 import userRoutes from "./routes/userRoute.js"
 import adminRoutes from "./routes/adminRoute.js";
 import authRoutes from "./routes/authRoutes.js"
+import complaintRoutes from "./routes/complaintRoute.js"
 dotenv.config();
 const PORT = process.env.PORT ;
 
@@ -18,6 +19,7 @@ app.use(urlencoded({extended : true}));
 app.use("/api/v1/user",userRoutes);
 app.use("/api/v1/admin",adminRoutes);
 app.use("/api/v1/auth",authRoutes);
+app.use("/api/v1/user/complaint/", complaintRoutes)
 
 
 app.listen(PORT, ()=>{

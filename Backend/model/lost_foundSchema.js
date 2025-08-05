@@ -2,38 +2,40 @@ import mongoose from "mongoose";
 
 
 const lostOrfoundSchema = new mongoose.Schema({
-    type :{ String,
-    enum : ["lost" , "found"],
-    required : true},
-    title : {
-        type : String ,
-        required : true
+    type: {
+        type: String,
+        enum: ["lost", "found"],
+        required: true
     },
-    description : {
-        type : String ,
-        required : true 
+    title: {
+        type: String,
+        required: true
     },
-    dateReported : {
-        type : Date ,
-        default : Date.now
+    description: {
+        type: String,
+        required: true
     },
-    dateLostOrFound : {
-        type : Date , 
-        required : true
+    dateReported: {
+        type: Date,
+        default: Date.now
     },
-    location : {
-        type : String,
-        required : true
+    dateLostOrFound: {
+        type: Date,
+        required: true
     },
-    reportedBy : {
-        type : String ,
-        required : true
+    location: {
+        type: String,
+        required: true
     },
-    phone : {
-        type : String ,
-        required : true
+    reportedBy: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+        required: true
     }
-}, {timestamps : true});
+}, { timestamps: true });
 
 const lostOrFoundModel = mongoose.model("Lost_Found", lostOrfoundSchema);
-export default lostOrFoundModel ;
+export default lostOrFoundModel;
