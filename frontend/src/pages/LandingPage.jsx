@@ -20,7 +20,7 @@ const LandingPage = () => {
               Admin Sign In
             </button>
           </Link>
-         <Link to="/login"><button className="bg-blue-200 hover:bg-blue-300 text-blue-900 px-4 py-2 rounded transition-transform duration-200 transform hover:scale-105">
+         <Link to="/user-login"><button className="bg-blue-200 hover:bg-blue-300 text-blue-900 px-4 py-2 rounded transition-transform duration-200 transform hover:scale-105">
             Login
           </button></Link>
           <Link to="/sign-up">
