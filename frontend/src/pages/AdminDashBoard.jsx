@@ -1,25 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('home');
-
-  const renderContent = () => {
-    switch (activeSection) {
-      case 'allNotices':
-        return <p>All Notices will be displayed here.</p>;
-      case 'addNotice':
-        return <p>Form to add new notice will appear here.</p>;
-      case 'complaints':
-        return <p>User complaints list here.</p>;
-      case 'lostFound':
-        return <p>Lost and found items here.</p>;
-      case 'contact':
-        return <p>Contact info / messages here.</p>;
-      case 'home':
-      default:
-        return <p>Welcome, Admin! Use the sidebar to manage the noticeboard.</p>;
-    }
-  };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -27,8 +10,8 @@ const AdminDashboard = () => {
       <div className="w-64 bg-gray-800 text-white flex flex-col py-6 px-4">
         <h2 className="text-2xl font-bold mb-6">Admin Panel</h2>
         <button onClick={() => setActiveSection('home')} className="text-left mb-4 hover:text-yellow-400">🏠 Home</button>
-        <button onClick={() => setActiveSection('allNotices')} className="text-left mb-4 hover:text-yellow-400">📜 All Notices</button>
-        <button onClick={() => setActiveSection('addNotice')} className="text-left mb-4 hover:text-yellow-400">➕ Add Notice</button>
+        <Link to="/allNotice" className="text-left mb-4 hover:text-yellow-400">📜 All Notices</Link>
+         <Link to="/addNotice" className="text-left mb-4 hover:text-yellow-400">📜 Add Notices</Link>
         <button onClick={() => setActiveSection('complaints')} className="text-left mb-4 hover:text-yellow-400">🛠️ User Complaints</button>
         <button onClick={() => setActiveSection('lostFound')} className="text-left mb-4 hover:text-yellow-400">🔍 Lost & Found</button>
         <button onClick={() => setActiveSection('contact')} className="text-left mb-4 hover:text-yellow-400">📞 Contact Info</button>
@@ -54,9 +37,9 @@ const AdminDashboard = () => {
           </div>
         </header>
 
-        {/* Content */}
+        {/* Main Area */}
         <main className="p-6 bg-gray-50 min-h-[calc(100vh-80px)]">
-          {renderContent()}
+          <p className="text-lg font-medium">Welcome, Admin! Use the sidebar to manage the noticeboard.</p>
         </main>
       </div>
     </div>

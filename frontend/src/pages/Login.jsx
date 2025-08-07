@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {useState , useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios"
+import { decodeToken, getToken , storeToken} from '../utils/token';
 
 const UserLogin = () => {
 
@@ -16,7 +17,15 @@ const UserLogin = () => {
     try{
       const res = await axios.post("http://localhost:8000/api/v1/auth/login",{email , password});
       alert("Login successfully");
-      navigate("/user-dashboard")
+      storeToken(res.data.token);
+      const tokenData = decodeToken(getToken());
+      if(tokenData.role!=="admin"){
+        navigate("/user-dashboard");
+      }
+      else{
+        navigate("/admin-dashboard");
+      }
+      
     }
     catch(err){
       console.log(err)

@@ -15,11 +15,7 @@ const LandingPage = () => {
             Features
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-yellow-300 transition-all group-hover:w-full"></span>
           </a>
-          <Link to="admin-login">
-            <button className="bg-yellow-300 hover:bg-yellow-400 text-black px-4 py-2 rounded transition-transform duration-200 transform hover:scale-105">
-              Admin Sign In
-            </button>
-          </Link>
+          
          <Link to="/user-login"><button className="bg-blue-200 hover:bg-blue-300 text-blue-900 px-4 py-2 rounded transition-transform duration-200 transform hover:scale-105">
             Login
           </button></Link>
