@@ -68,11 +68,12 @@ const loginUser = async(req, res )=>{
                 message : "Password is incorrect"
             });
         }
-        const accessToken = await jwt.sign({
-            userId : emailExist._id,
-            username : emailExist.username,
-            email : emailExist.email
-        }, process.env.JWT_SECRET_KEY , {expiresIn : "30m"});
+        const accessToken = jwt.sign({
+            userId: emailExist._id,
+            username: emailExist.username,
+            email: emailExist.email,
+            role: emailExist.role
+        }, process.env.JWT_SECRET_KEY, { expiresIn: "30m" });
         if(!accessToken){
             return res.status(400).json({
                 success : false ,

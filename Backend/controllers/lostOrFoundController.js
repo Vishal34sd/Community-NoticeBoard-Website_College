@@ -5,7 +5,7 @@ import LostOrFound from "../model/lost_foundSchema.js";
 const addLostOrFound = async (req, res) => {
     try {
         const { type, title, description  , dateLostOrFound ,location , reportedBy , phone } = req.body;
-        const newDetails = await Complaint({
+        const newDetails = await LostOrFound({
             type,
             title,
             description, dateLostOrFound , location , 
