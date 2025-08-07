@@ -12,7 +12,7 @@ const AdminDashboard = () => {
         <button onClick={() => setActiveSection('home')} className="text-left mb-4 hover:text-yellow-400">🏠 Home</button>
         <Link to="/allNotice" className="text-left mb-4 hover:text-yellow-400">📜 All Notices</Link>
          <Link to="/addNotice" className="text-left mb-4 hover:text-yellow-400">📜 Add Notices</Link>
-        <button onClick={() => setActiveSection('complaints')} className="text-left mb-4 hover:text-yellow-400">🛠️ User Complaints</button>
+        <Link to="/allComplaint" className="text-left mb-4 hover:text-yellow-400">📜 All Complaints</Link>
         <button onClick={() => setActiveSection('lostFound')} className="text-left mb-4 hover:text-yellow-400">🔍 Lost & Found</button>
         <button onClick={() => setActiveSection('contact')} className="text-left mb-4 hover:text-yellow-400">📞 Contact Info</button>
 

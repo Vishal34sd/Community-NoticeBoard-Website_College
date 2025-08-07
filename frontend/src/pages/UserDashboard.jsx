@@ -2,6 +2,7 @@ import React from 'react';
 import {useState , useEffect} from "react";
 import axios from "axios"
 import { Link } from 'react-router-dom';
+import { getToken } from '../utils/token';
 
 const UserDashboard = () => {
   const [notice , setNotice] = useState([]);
@@ -12,7 +13,11 @@ const UserDashboard = () => {
 
   const getAllNotices = async()=>{
     try{
-      const res = await axios.get("http://localhost:8000/api/v1/user/getNotice");
+      const res = await axios.get("http://localhost:8000/api/v1/user/getNotice",{
+        headers: {
+          Authorization : `Bearer ${getToken()}`
+        }
+      });
       const fetchedData = res.data.data
       setNotice(fetchedData);
     }
@@ -24,7 +29,7 @@ const UserDashboard = () => {
   return (
     <div className="flex min-h-screen bg-blue-50">
       {/* Sidebar */}
-      <aside className="w-64 bg-blue-900 text-white p-6 flex flex-col space-y-4">
+      <aside className="w-64 bg-gray-800 text-white p-6 flex flex-col space-y-4">
         <h2 className="text-2xl font-bold text-center">Dashboard</h2>
 
         <div className="mt-6 space-y-3">
@@ -34,12 +39,15 @@ const UserDashboard = () => {
           <Link to="/addComplaint" className="block"><button className="bg-blue-800 hover:bg-blue-700 py-2 px-4 rounded transition w-full text-left">
             Add Complaint
           </button></Link>
-          <button className="bg-blue-800 hover:bg-blue-700 py-2 px-4 rounded transition w-full text-left">
+          <Link to="/report" className="block"><button className="bg-blue-800 hover:bg-blue-700 py-2 px-4 rounded transition w-full text-left">
             Report Lost & Found
-          </button>
-          <button className="bg-blue-800 hover:bg-blue-700 py-2 px-4 rounded transition w-full text-left">
+          </button></Link>
+          <Link to="/contact" className="block"><button className="bg-blue-800 hover:bg-blue-700 py-2 px-4 rounded transition w-full text-left">
             Contact Details
-          </button>
+          </button></Link>
+          <Link to="/rules&guidelines" className="block"><button className="bg-blue-800 hover:bg-blue-700 py-2 px-4 rounded transition w-full text-left">
+            Rules & Guidelines
+          </button></Link>
         </div>
 
         <button className="bg-red-600 hover:bg-red-700 py-2 px-4 rounded transition mt-auto w-full text-left">
