@@ -1,4 +1,5 @@
 import Notice from "../model/noticeSchema.js"
+import Complaint from "../model/complaintSchema.js"
 
 
 const addNotice = async(req, res)=>{
@@ -76,4 +77,24 @@ const deleteNotice = async(req, res)=>{
     }
 }
 
-export {addNotice , editNotice , deleteNotice}
+const getAllComplaint = async(req, res)=>{
+    try{
+        const allComplaint = await Complaint.find({});
+        if(!allComplaint){
+            return res.status(400).json({
+                success : false ,
+                message : "Complaint cannot be fetched"
+            });
+        }
+        return res.status(200).json({
+            success : true ,
+            message : "All complaint fetched successfully",
+            data : allComplaint
+        });
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+export {addNotice , editNotice , deleteNotice , getAllComplaint}

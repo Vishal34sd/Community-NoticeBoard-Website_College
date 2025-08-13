@@ -22,8 +22,6 @@ app.use(express.json());
 app.use(urlencoded({extended : true}));
 
 
-
-
 app.use("/api/v1/user",userRoutes);
 app.use("/api/v1/admin",adminRoutes);
 app.use("/api/v1/auth",authRoutes);
