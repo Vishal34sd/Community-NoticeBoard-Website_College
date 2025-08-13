@@ -1,68 +1,141 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const AllComplaint = () => {
-  const [complaints, setComplaints] = useState([]);
+const AddLostOrFound = () => {
+  const [form, setForm] = useState({
+    type: "lost",
+    title: "",
+    description: "",
+    dateLostOrFound: "",
+    location: "",
+    reportedBy: "",
+    phone: ""
+  });
 
-  useEffect(() => {
-    const fetchComplaints = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/v1/admin/fetchComplaint');
-        setComplaints(response.data.complaints || []);
-      } catch (error) {
-        console.error("Error fetching complaints:", error);
-      }
-    };
+  const navigate = useNavigate();
 
-    fetchComplaints();
-  }, []);
+  const inputHandler  = (e) => {
+    const {name , value} = e.target ;
+    setForm({
+      ...form ,
+      [name]:value
+    })
+  };
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try{
+      const res = await axios.post("http://localhost:8000/api/v1/user/report/addLostOrFound", form);
+      alert("Report submitted successfully");
+      navigate("/user-dashboard");
+    }
+    catch(err){
+      console.log(err);
+    }
+    
+    
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Header */}
-      <header className="bg-white shadow-md p-4 flex justify-between items-center">
-        <h1 className="text-xl font-semibold">Community NoticeBoard - All Complaints</h1>
-        <div className="flex items-center gap-3">
-          <span className="font-medium text-gray-700">Admin</span>
-          <img
-            src="https://www.w3schools.com/howto/img_avatar.png"
-            alt="Admin Avatar"
-            className="w-10 h-10 rounded-full"
+    <div className="container mx-auto p-4 max-w-md bg-white rounded shadow">
+      <h2 className="text-2xl font-semibold mb-4">Add Lost or Found Item</h2>
+      <form onSubmit={handleSubmit}>
+        <label className="block mb-2">
+          Type:
+          <select
+            name="type"
+            value={form.type}
+            onChange={inputHandler}
+            required
+            className="block w-full border rounded p-2 mt-1"
+          >
+            <option value="">Select type</option>
+            <option value="lost">Lost</option>
+            <option value="found">Found</option>
+          </select>
+        </label>
+
+        <label className="block mb-2">
+          Title:
+          <input
+            type="text"
+            name="title"
+            value={form.title}
+            onChange={inputHandler}
+            required
+            className="block w-full border rounded p-2 mt-1"
           />
-        </div>
-      </header>
+        </label>
 
-      {/* Complaints List */}
-      <main className="flex-1 px-6 py-10">
-        <h2 className="text-2xl font-semibold mb-6 text-gray-800">Complaints Received</h2>
+        <label className="block mb-2">
+          Description:
+          <textarea
+            name="description"
+            value={form.description}
+            onChange={inputHandler}
+            required
+            className="block w-full border rounded p-2 mt-1"
+          />
+        </label>
 
-        {complaints.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {complaints.map((complaint) => (
-              <div key={complaint._id} className="bg-white p-6 rounded shadow-md">
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">{complaint.title}</h3>
-                <p className="text-gray-700 mb-1">
-                  <span className="font-medium">Description:</span> {complaint.description}
-                </p>
-                <p className="text-gray-700 mb-1">
-                  <span className="font-medium">User:</span> {complaint.username}
-                </p>
-                <p className="text-gray-700 mb-1">
-                  <span className="font-medium">Date Reported:</span> {new Date(complaint.dateReported).toLocaleDateString()}
-                </p>
-                <p className="text-gray-700">
-                  <span className="font-medium">Status:</span>{' '}
-                  <span className="text-yellow-500 font-medium">{complaint.status || 'Pending'}</span>
-                </p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-500 text-lg text-center">No complaints found.</p>
-        )}
-      </main>
+        <label className="block mb-2">
+          Date Lost or Found:
+          <input
+            type="date"
+            name="dateLostOrFound"
+            value={form.dateLostOrFound}
+            onChange={inputHandler}
+            required
+            className="block w-full border rounded p-2 mt-1"
+          />
+        </label>
+
+        <label className="block mb-2">
+          Location:
+          <input
+            type="text"
+            name="location"
+            value={form.location}
+            onChange={inputHandler}
+            required
+            className="block w-full border rounded p-2 mt-1"
+          />
+        </label>
+
+        <label className="block mb-2">
+          Reported By:
+          <input
+            type="text"
+            name="reportedBy"
+            value={form.reportedBy}
+            onChange={inputHandler}
+            required
+            className="block w-full border rounded p-2 mt-1"
+          />
+        </label>
+
+        <label className="block mb-4">
+          Phone:
+          <input
+            type="tel"
+            name="phone"
+            value={form.phone}
+            onChange={inputHandler}
+            required
+            className="block w-full border rounded p-2 mt-1"
+          />
+        </label>
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+        >
+          Submit
+        </button>
+      </form>
     </div>
   );
 };
 
-export default AllComplaint;
+export default AddLostOrFound;

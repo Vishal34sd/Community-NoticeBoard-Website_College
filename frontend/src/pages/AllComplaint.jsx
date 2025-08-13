@@ -1,65 +1,64 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import {useState , useEffect} from "react";
+import axios from "axios";
 
-const AllComplaint = () => {
-  const [complaints, setComplaints] = useState([]);
+const AllComplaintsAdminPage = () => {
 
-  useEffect(() => {
-    const fetchComplaints = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/v1/admin/fetchComplaint');
-        setComplaints(response.data.complaints || []);
-      } catch (error) {
-        console.error("Error fetching complaints:", error);
-      }
-    };
+  const [complaint , setComplaint] = useState([]);
 
-    fetchComplaints();
-  }, []);
+  useEffect(()=>{
+    getAllComplaint();
+  },[]);
 
+  const getAllComplaint = async()=>{
+    try{
+      const res = await axios.get("http://localhost:8000/api/v1/admin/fetchComplaint");
+      setComplaint(res.data.data);
+      console.log(res.data.data);
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
   return (
-    <div className="min-h-screen bg-white text-black p-8">
-      {/* Page Heading */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-800">All Complaints</h1>
-        <p className="text-gray-400 mt-2">Review all user complaints submitted through the platform.</p>
-      </div>
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+      {/* Header */}
+      <header className="bg-white shadow-md p-4 flex justify-between items-center">
+        <h1 className="text-xl font-semibold">Community NoticeBoard - All Complaints</h1>
+        <div className="flex items-center gap-3">
+          <span className="font-medium text-gray-700">Admin</span>
+          <img
+            src="https://www.w3schools.com/howto/img_avatar.png"
+            alt="Admin Avatar"
+            className="w-10 h-10 rounded-full"
+          />
+        </div>
+      </header>
 
-      {/* Complaints Table */}
-      <div className="overflow-x-auto rounded-lg shadow-md bg-gray-100">
-        <table className="min-w-full text-sm">
-          <thead className="bg-gray-800 text-white text-left">
-            <tr>
-              <th className="px-4 py-3">User</th>
-              <th className="px-4 py-3">Title</th>
-              <th className="px-4 py-3">Description</th>
-              <th className="px-4 py-3">Date Reported</th>
-              <th className="px-4 py-3">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {complaints.length > 0 ? (
-              complaints.map((complaint) => (
-                <tr key={complaint._id} className="border-b border-gray-100 hover:bg-gray-700 transition">
-                  <td className="px-4 py-3">{complaint.username}</td>
-                  <td className="px-4 py-3">{complaint.title}</td>
-                  <td className="px-4 py-3">{complaint.description}</td>
-                  <td className="px-4 py-3">{new Date(complaint.dateReported).toLocaleDateString()}</td>
-                  <td className="px-4 py-3">{complaint.status || 'Pending'}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="text-center text-gray-400 py-6">
-                  No complaints found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      {/* Main Content */}
+      <main className="flex-1 p-8 max-w-4xl mx-auto bg-white shadow-md rounded-lg mt-6">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">All Submitted Complaints</h2>
+
+        {/* Sample complaint cards */}
+        <div className="space-y-4">
+          
+          {complaint.map((item, index)=>{
+            return(
+              <div className="p-4 bg-white shadow-sm rounded-md border">
+            <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
+            <p className="text-gray-600 mt-1">{item.category}</p>
+            <p className="text-gray-600 mt-1">{item.description}</p>
+            <div className="text-sm text-gray-500 mt-2">Submitted By-{item.submittedBy}</div>
+          </div>
+            )
+            
+          })}
+        </div>
+
+        
+      </main>
     </div>
   );
 };
 
-export default AllComplaint;
+export default AllComplaintsAdminPage;
